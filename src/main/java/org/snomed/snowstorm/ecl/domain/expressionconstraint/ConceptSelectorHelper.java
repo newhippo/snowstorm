@@ -1,4 +1,4 @@
-package org.snomed.snowstorm.ecl.domain;
+package org.snomed.snowstorm.ecl.domain.expressionconstraint;
 
 import com.google.common.collect.Sets;
 import it.unimi.dsi.fastutil.longs.LongArrayList;
@@ -27,10 +27,6 @@ class ConceptSelectorHelper {
 		return boolQuery()
 				.must(branchCriteria)
 				.must(termQuery(QueryConcept.STATED_FIELD, stated));
-	}
-
-	static Page<Long> fetchIds(BoolQueryBuilder query, Collection<Long> conceptIdFilter, PageRequest pageRequest, QueryService queryService) {
-		return fetchIds(query, conceptIdFilter, null, pageRequest, queryService);
 	}
 
 	static Page<Long> fetchIds(BoolQueryBuilder query, Collection<Long> filterByConceptIds, Function<QueryConcept, Boolean> inclusionFilter, PageRequest pageRequest, QueryService queryService) {

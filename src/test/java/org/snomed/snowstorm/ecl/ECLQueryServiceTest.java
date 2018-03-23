@@ -16,12 +16,16 @@ import org.snomed.snowstorm.core.data.domain.Relationship;
 import org.snomed.snowstorm.core.data.services.ConceptService;
 import org.snomed.snowstorm.core.data.services.ReferenceSetMemberService;
 import org.snomed.snowstorm.core.data.services.ServiceException;
+import org.snomed.snowstorm.ecl.ECLQueryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Slice;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertEquals;
@@ -365,6 +369,17 @@ public class ECLQueryServiceTest extends AbstractTest {
 	}
 
 	@Test
+	public void focusConceptExclusion() {
+		assertEquals(
+				Sets.newHashSet(CLINICAL_FINDING, BLEEDING, BLEEDING_SKIN),
+				strings(selectConceptIds("<<" + CLINICAL_FINDING + " MINUS <<" + DISORDER, branchCriteria, MAIN, STATED)));
+
+		assertEquals(
+				Sets.newHashSet(),
+				strings(selectConceptIds(HEMORRHAGE + " MINUS " + HEMORRHAGE, branchCriteria, MAIN, STATED)));
+	}
+
+	@Test
 	public void focusConceptConjunctionDisjunction() {
 		assertEquals(
 				Sets.newHashSet(BLEEDING, BLEEDING_SKIN),
@@ -398,9 +413,37 @@ public class ECLQueryServiceTest extends AbstractTest {
 				strings(selectConceptIds(eclWithoutGrouping, branchCriteria, MAIN, STATED)));
 
 		assertEquals(
-				"ECL without grouping finds only the concept with matching groups",
+				"ECL with grouping finds only the concept with matching groups",
 				Sets.newHashSet(PENTALOGY_OF_FALLOT),
 				strings(selectConceptIds(eclWithGrouping, branchCriteria, MAIN, STATED)));
+	}
+
+	@Test
+	public void attributeGroupCardinality() {
+		assertEquals(
+				"Match clinical finding with at least one grouped finding site attributes.",
+				Sets.newHashSet(PENTALOGY_OF_FALLOT, PENTALOGY_OF_FALLOT_INCORRECT_GROUPING),
+				strings(selectConceptIds("<404684003 |Clinical finding|: { 363698007 |Finding site| = * }", branchCriteria, MAIN, STATED)));
+
+		assertEquals(
+				"Match clinical finding with zero grouped finding site attributes.",
+				Sets.newHashSet(DISORDER, BLEEDING, BLEEDING_SKIN),
+				strings(selectConceptIds("<404684003 |Clinical finding|: [0..0]{ 363698007 |Finding site| = * }", branchCriteria, MAIN, STATED)));
+
+		assertEquals(
+				"Match clinical finding with one grouped finding site attributes.",
+				Sets.newHashSet(),
+				strings(selectConceptIds("<404684003 |Clinical finding|: [1..1]{ 363698007 |Finding site| = * }", branchCriteria, MAIN, STATED)));
+
+		assertEquals(
+				"Match clinical finding with one or two grouped finding site attributes.",
+				Sets.newHashSet(PENTALOGY_OF_FALLOT, PENTALOGY_OF_FALLOT_INCORRECT_GROUPING),
+				strings(selectConceptIds("<404684003 |Clinical finding|: [1..2]{ 363698007 |Finding site| = * }", branchCriteria, MAIN, STATED)));
+
+		assertEquals(
+				"Match clinical finding with three or more grouped finding site attributes.",
+				Sets.newHashSet(),
+				strings(selectConceptIds("<404684003 |Clinical finding|: [3..*]{ 363698007 |Finding site| = * }", branchCriteria, MAIN, STATED)));
 	}
 
 	@Test
