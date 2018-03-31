@@ -2,14 +2,11 @@
 
 ## (Not Production Ready)
 
-SNOMED CT Authoring server built on Elasticsearch.
+Snowstorm is currently a proof of concept SNOMED CT terminology server built on top of Elasticsearch, with a focus on performance and enterprise scalability.
 
-## Development Setup
 
-### Install Elasticsearch
-  - Download and unzip [Elasticsearch **6.0.1**](https://www.elastic.co/downloads/past-releases/elasticsearch-6-0-1) (Must be this version)
-  - Update _config/jvm.options_ with `-Xms4g` and `-Xmx4g`.
-  - Start with _./bin/elasticsearch_
+##Documentation
+Documentation is sparse for now, but will be improved as the project moves out of a proof of concept phase.
 
 ### Run Snowstorm
 Once Elasticsearch is running build and run Snowstorm:
@@ -35,5 +32,10 @@ docker-compose up -d
 ```
 
 
-## Documentation
-Documentation is appearing, slowly but surely, and can be found in the [docs folder](docs/introduction.md)
+##Documentation
+Documentation is sparse for now, but will be improved as the project moves out of a proof of concept phase.
+
+- [Getting Started](getting-started.md)
+- [Loading SNOMED](loading-snomed.md)
+- [Using the API](using-the-api.md)
+- [Configuration Guide](configuration-guide.md)
