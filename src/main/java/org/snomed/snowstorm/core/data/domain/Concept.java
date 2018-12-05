@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Document(indexName = "es-concept", type = "concept", shards = 8)
+@Document(indexName = "es-concept", type = "concept", shards = 1)
 @JsonPropertyOrder({"conceptId", "fsn", "effectiveTime", "active", "inactivationIndicator", "moduleId", "definitionStatus", "definitionStatusId", "descriptions", "relationships"})
 public class Concept extends SnomedComponent<Concept> implements ConceptView, SnomedComponentWithInactivationIndicator, SnomedComponentWithAssociations {
 
