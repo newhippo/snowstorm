@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 import java.util.Collection;
 import java.util.UUID;
 
-@Document(indexName = "es-identifiers", type = "identifiers", shards = 1)
+@Document(indexName = "es-identifiers", type = "identifiers", shards = 1, replicas = 0)
 public class IdentifiersForRegistration {
 
 	private String id;

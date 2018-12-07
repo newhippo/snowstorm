@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * Represents an active concept with fields to assist logical searching.
  */
-@Document(indexName = "es-class", type = "classification", shards = 1)
+@Document(indexName = "es-class", type = "classification", shards = 1, replicas = 0)
 public class Classification {
 
 	public interface Fields {

@@ -8,7 +8,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 /**
  * Represents an edition or extension of SNOMED-CT
  */
-@Document(indexName = "es-codesystem", type = "codesystem", shards = 1)
+@Document(indexName = "es-codesystem", type = "codesystem", shards = 1, replicas = 0)
 public class CodeSystem {
 
 	public interface Fields {

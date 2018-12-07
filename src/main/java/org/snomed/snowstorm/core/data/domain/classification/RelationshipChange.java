@@ -8,7 +8,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@Document(indexName = "es-class-rel", type = "rel", shards = 1)
+@Document(indexName = "es-class-rel", type = "rel", shards = 1, replicas = 0)
 public class RelationshipChange {
 
 	@Id
